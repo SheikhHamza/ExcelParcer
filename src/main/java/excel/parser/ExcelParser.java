@@ -104,11 +104,13 @@ public class ExcelParser{
     }
 
     public static void main(String args[]){
+
+        // Sample execution
         ExcelParser parser = new ExcelParser();
-        List<Fields> fields = parser.processExcelFile("C:\\Users\\VenD\\Desktop\\TempDN\\ExcelParser\\MasterDataFields.xlsx");
+        List<Fields> fields = parser.processExcelFile("C:\\Users\\VenD\\Desktop\\TempDN\\ExcelParser\\OEMDateFields.xlsx");
         System.out.println(fields.get(1).toString());
         try {
-            parser.createJavaClass("excel.parser","MasterDataFields",true,fields,"C:\\Users\\VenD\\Desktop\\TempDN\\ExcelParser\\MasterDataFields");
+            parser.createJavaClass("excel.parser","OEMDateFields",false,fields,"C:\\Users\\VenD\\Desktop\\TempDN\\ExcelParser\\newFolder\\OEMDateFields");
         } catch (IOException e) {
             e.printStackTrace();
         }
