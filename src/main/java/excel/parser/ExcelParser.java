@@ -46,6 +46,10 @@ public class ExcelParser{
                         .replaceAll("[^\\w]+", String.valueOf("_"));
 
                 refinedColumnName = StringUtils.remove(WordUtils.capitalizeFully(refinedColumnName,"_".toCharArray()), "_");
+                char[] colName = refinedColumnName.toCharArray();
+                colName[0] = Character.toLowerCase(colName[0]);
+
+                refinedColumnName = new String(colName);
 
                 // extract number from string (if a string starts with number) and then append at the end of string
                 if(matcher.matches()){
@@ -78,8 +82,8 @@ public class ExcelParser{
         out.println("public class " + className + (isDto? "Dto":"") + " {" + "\n" );
 
         for (Fields x: fields) {
-            if(!isDto) {
-                out.println("\t@Value(\"" + x.getOriginalName() + "\")");
+            if(isDto) {
+                out.println("\t@Value(\"" + x.getRefinedName() + "\")");
             }
             out.println("\tprivate String " + x.getRefinedName() +  ";");
         }
@@ -107,10 +111,10 @@ public class ExcelParser{
 
         // Sample execution
         ExcelParser parser = new ExcelParser();
-        List<Fields> fields = parser.processExcelFile("C:\\Users\\VenD\\Desktop\\TempDN\\ExcelParser\\OEMDateFields.xlsx");
+        List<Fields> fields = parser.processExcelFile("C:\\Users\\VenD\\Desktop\\TempDN\\MasterDataFields.xlsx");
         System.out.println(fields.get(1).toString());
         try {
-            parser.createJavaClass("excel.parser","OEMDateFields",false,fields,"C:\\Users\\VenD\\Desktop\\TempDN\\ExcelParser\\newFolder\\OEMDateFields");
+            parser.createJavaClass("excel.parser","MasterDataFields",true,fields,"C:\\Users\\VenD\\Desktop\\TempDN\\MasterDataFields");
         } catch (IOException e) {
             e.printStackTrace();
         }
